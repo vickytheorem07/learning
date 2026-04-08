@@ -1,0 +1,7 @@
+Large Language Models (LLMs) are a class of deep learning models trained on massive amounts of text data.
+They are based on the Transformer architecture, introduced by Google in 2017 in the paper "Attention is All You Need".
+LLMs can generate human-like text, answer questions, summarize documents, translate languages, and write code.
+Famous LLMs include OpenAI's GPT series, Google's Gemini, Meta's LLaMA, and Anthropic's Claude.
+These models are trained using a technique called next-token prediction on billions or trillions of tokens.
+Fine-tuning and Reinforcement Learning from Human Feedback (RLHF) are used to align LLMs to follow instructions and behave safely.
+LLMs have revolutionized natural language processing and are at the heart of many modern AI assistants.

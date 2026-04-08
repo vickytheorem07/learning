@@ -1,0 +1,6 @@
+Python is a high-level, interpreted programming language known for its clear syntax and readability.
+It was created by Guido van Rossum and first released in 1991.
+Python supports multiple programming paradigms including procedural, object-oriented, and functional programming.
+It is widely used in web development, data science, artificial intelligence, automation, and scripting.
+Python's large standard library and vibrant ecosystem of third-party packages make it one of the most popular languages in the world.
+Popular frameworks include Django and Flask for web development, and NumPy, Pandas, and TensorFlow for data science and machine learning.

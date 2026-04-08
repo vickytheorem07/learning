@@ -1,0 +1,8 @@
+Vector databases are specialized databases designed to store and query high-dimensional vectors (embeddings).
+They are a critical component in Retrieval-Augmented Generation (RAG) systems and semantic search applications.
+Unlike traditional databases that use exact keyword matching, vector databases use approximate nearest neighbor (ANN) search.
+This allows them to find semantically similar content even when words don't match exactly.
+Popular vector databases include Chroma, FAISS, Pinecone, Weaviate, and Qdrant.
+Embeddings are numerical representations of text (or images) that capture semantic meaning in a dense vector space.
+When you store a document, it is first converted to an embedding and then stored alongside the original content.
+At query time, the question is also embedded and the most similar document vectors are retrieved.

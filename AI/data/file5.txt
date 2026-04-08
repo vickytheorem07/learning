@@ -1,0 +1,8 @@
+Retrieval-Augmented Generation (RAG) is a technique that enhances LLM responses by providing relevant context retrieved from a knowledge base.
+RAG combines the generative power of LLMs with the precision of information retrieval systems.
+The typical RAG pipeline has three stages: indexing, retrieval, and generation.
+In the indexing stage, documents are split into chunks, embedded, and stored in a vector database.
+In the retrieval stage, the user query is embedded and the most relevant chunks are fetched from the vector database.
+In the generation stage, the retrieved chunks are injected into the LLM prompt as context, and the model generates a grounded answer.
+RAG reduces hallucinations because the model is anchored to actual source documents instead of relying solely on trained weights.
+LangChain is a popular framework for building RAG pipelines in Python, providing tools for loading, chunking, embedding, and retrieval.
