@@ -11,6 +11,6 @@ class Config:
     embedding_api_key = os.getenv("huggingface_api")
     embedding_model_name = "sentence-transformers/all-MiniLM-L6-v2"
 
-    data_path = r"C:\Users\ISHVARYA KALYANKUMAR\projects\learning\AI\data"
-    persist_dir = r"C:\Users\ISHVARYA KALYANKUMAR\projects\learning\AI\chroma_db"
+    data_path = r"\data"
+    persist_dir = r"\chroma_db"
     top_k = 3
