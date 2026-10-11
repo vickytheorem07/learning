@@ -5,9 +5,12 @@ load_dotenv()
 
 class Config:
     llm_api_key = os.getenv("groq_api")
-    llm_model_name = "qwen/qwen3.8-27b"
+    llm_model_name = "openai/gpt-oss-20b"
+    #qwen/qwen3.8-27b
     #qwen/qwen3-32b
+    #openai/gpt-oss-120b
     #llm_model_name = "ometa-llama/llama-4-scout-17b-16e-instruct"
+    #openai/gpt-oss-20b
     temperature = 0.9
     
     embedding_api_key = os.getenv("huggingface_api")
