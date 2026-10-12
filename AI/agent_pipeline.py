@@ -1,6 +1,7 @@
 
 import os
 import sys
+from dotenv import load_dotenv
 
 # Add the parent directory (project root) to Python's path so it knows what "AI" is
 # when you click the "Run" button in VS Code.
@@ -21,7 +22,7 @@ def get_weather(city: str) -> str:
     return f"It's always sunny in {city}!"
 
 from langchain.agents import create_agent
-from deepagents import create_deep_agent
+
 
 agent = create_agent(
     model=llm.llm,
@@ -32,19 +33,46 @@ agent = create_agent(
 
 
 
-query = f"""what is the weather like in san francisco?"""
+query = f"""what is the weather like in trichy?"""
 
 from langchain_core.utils.uuid import uuid7
 agent_id=str(uuid7())
 
 print("Running create_agent...", flush=True)
-agent_result = agent.invoke(
-    {"messages": [{"role": "user", "content": query}]},
-    config={"configurable": {"thread_id": agent_id}},
-)
+load_dotenv()
+
+if not os.getenv("LANGSMITH_API_KEY"):
+    raise RuntimeError("LANGSMITH_API_KEY is missing")
+
+import langsmith as ls
+
+with ls.tracing_context(
+    project_name="email-agent-local",
+    enabled=True,
+    tags=["local", "email-agent", "v1.0"],
+    metadata={
+        "user_id": "user_id_001",
+        "session_id": agent_id,
+        "environment": "local",
+    },
+):
+    agent_result = agent.invoke(
+        {
+            "messages": [
+                {"role": "user", "content": query}
+            ]
+        },
+        config={
+            "run_name": "email-agent",
+            "configurable": {
+                "thread_id": agent_id
+            }
+        },
+    )
 print("\ncreate_agent:")
 print(agent_result["messages"][-1].content_blocks)
 # print("Running create_deep_agent...", flush=True)
+# from deepagents import create_deep_agent
 # deep_agent = create_deep_agent(
 #     model=llm.llm,
 #     tools=[get_weather],
