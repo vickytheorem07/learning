@@ -30,35 +30,43 @@ agent = create_agent(
     checkpointer=checkpointer,
 )
 
-deep_agent = create_deep_agent(
-    model=llm.llm,
-    tools=[get_weather],
-    system_prompt=system_prompt,
-    checkpointer=checkpointer,
-)
+
 
 query = f"""what is the weather like in san francisco?"""
+
+from langchain_core.utils.uuid import uuid7
+agent_id=str(uuid7())
 
 print("Running create_agent...", flush=True)
 agent_result = agent.invoke(
     {"messages": [{"role": "user", "content": query}]},
-    config={"configurable": {"thread_id": "weather-lc"}},
-)
-print("Running create_deep_agent...", flush=True)
-deep_agent_result = deep_agent.invoke(
-    {"messages": [{"role": "user", "content": query}]},
-    config={"configurable": {"thread_id": "weather-da"}},
+    config={"configurable": {"thread_id": agent_id}},
 )
 print("\ncreate_agent:")
 print(agent_result["messages"][-1].content_blocks)
-print("\ncreate_deep_agent:")
-print(deep_agent_result["messages"][-1].content_blocks)
+# print("Running create_deep_agent...", flush=True)
+# deep_agent = create_deep_agent(
+#     model=llm.llm,
+#     tools=[get_weather],
+#     system_prompt=system_prompt,
+#     checkpointer=checkpointer,
+# )
+# deep_agent_result = deep_agent.invoke(
+#     {"messages": [{"role": "user", "content": query}]},
+#     config={"configurable": {"thread_id": "weather-da"}},
+# )
+# print("\ncreate_deep_agent:")
+# print(deep_agent_result["messages"][-1].content_blocks)
 
+
+stream_agent_id=str(uuid7())
 stream = agent.stream_events(
     {"messages": [{"role": "user", "content": query}]},
-    config={"configurable": {"thread_id": "weather-stream-2"}},
+    config={"configurable": {"thread_id": stream_agent_id}},
     version="v3",
 )
+
+print("streaming...")
 from langchain.messages import AIMessage, HumanMessage
 for snapshot in stream.values:
     # Each snapshot contains the full state at that point
@@ -85,7 +93,7 @@ for message in final_state["messages"]:
 #agent memory
 config = {
     "configurable": {
-        "thread_id": "weather-stream-2"
+        "thread_id": stream_agent_id
     }
 }
 state = agent.get_state(config)
