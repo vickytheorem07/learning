@@ -33,7 +33,7 @@ agent = create_agent(
 
 
 
-query = f"""what is the weather like in trichy?"""
+query = f"""what is the weather in trichy?"""
 
 from langchain_core.utils.uuid import uuid7
 agent_id=str(uuid7())

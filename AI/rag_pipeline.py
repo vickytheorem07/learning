@@ -5,7 +5,7 @@ import sys
 # when you click the "Run" button in VS Code.
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from AI.config import Config
+from AI.config import settings
 from AI.llm import Groq_llm
 from AI.embedding import Hugging_face_embedding
 from AI.vector_db import Chroma_vector_db
@@ -41,12 +41,12 @@ Answer:
         return self.llm.invoke(prompt).content
         
 
-llm=Groq_llm(Config.llm_model_name,Config.temperature,Config.llm_api_key)
-embedding=Hugging_face_embedding(Config.embedding_model_name,Config.embedding_api_key)
-vector_db=Chroma_vector_db(embedding.embedding,Config.persist_dir)
+llm=Groq_llm(settings.llm_model_name,settings.temperature,settings.groq_llm_api_key)
+embedding=Hugging_face_embedding(settings.embedding_model_name)#,settings.embedding_api_key)
+vector_db=Chroma_vector_db(embedding.embedding,settings.persist_dir)
 rag_instance=Rag(llm.llm,embedding.embedding,vector_db)
-#documents=DocumentLoader().load_documents(Config.data_path)
-#rag_instance.adding_documents(documents)
-print(rag_instance.llm_response("What is the capital of France?",3))
+# documents=DocumentLoader().load_documents(settings.data_path)
+# rag_instance.adding_documents(documents)
+print(rag_instance.llm_response("What is the llm?",3))
 
 
