@@ -35,9 +35,11 @@ class Settings(BaseSettings):
     groq_llm_api_key: str
     llm_model_name: str = "openai/gpt-oss-20b"
     temperature: float = 0.9
-    embedding_model_name: str = "sentence-transformers/all-MiniLM-L6-v2"
+    huggingface_embedding_model_name: str = "sentence-transformers/all-MiniLM-L6-v2"
+    huggingface_api: str
     data_path: str = "AI/data"
     persist_dir: str = "chroma_db"
+    collection_name: str = "documents"
     top_k: int = 3
     LANGSMITH_API_KEY: str
     
