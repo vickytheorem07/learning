@@ -21,6 +21,7 @@
 #     top_k = 3
 
 from functools import lru_cache
+from turtle import st
 
 from pydantic import field_validator, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -32,6 +33,10 @@ class Settings(BaseSettings):
         env_file_encoding="utf-8",
         extra="ignore",
     )
+    APP_ENV:str ="local"
+    project_name:str="email-agent"
+
+    #llm and embedding settings
     groq_llm_api_key: str
     llm_model_name: str = "openai/gpt-oss-20b"
     temperature: float = 0.9
@@ -42,6 +47,11 @@ class Settings(BaseSettings):
     collection_name: str = "documents"
     top_k: int = 3
     LANGSMITH_API_KEY: str
+
+    #agent settings
+    agent_version:str ="v1.0"
+    memory_database_url: str = "postgresql+psycopg://taskapp:replace-me@localhost:5432/taskdb"
+    limit_conversation_history_N: int = 5
     
 
 

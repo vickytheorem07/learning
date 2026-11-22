@@ -24,6 +24,7 @@ class Rag:
             f"[Source: {doc.metadata['source']}]\n{doc.page_content}"
             for doc in relavant_docs
         ])
+        
         prompt=f"""
         You are a helpful assistant.
 
