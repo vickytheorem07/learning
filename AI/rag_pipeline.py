@@ -5,10 +5,10 @@ import sys
 # when you click the "Run" button in VS Code.
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from AI.config import Config
+from AI.config import settings
 from AI.llm import Groq_llm
 from AI.embedding import Hugging_face_embedding
-from AI.vector_db import Chroma_vector_db
+from AI.vector_db import ChromaVectorDB
 from AI.loaders import DocumentLoader
 
 class Rag:
@@ -24,6 +24,7 @@ class Rag:
             f"[Source: {doc.metadata['source']}]\n{doc.page_content}"
             for doc in relavant_docs
         ])
+        
         prompt=f"""
         You are a helpful assistant.
 
@@ -41,12 +42,13 @@ Answer:
         return self.llm.invoke(prompt).content
         
 
-llm=Groq_llm(Config.llm_model_name,Config.temperature,Config.llm_api_key)
-embedding=Hugging_face_embedding(Config.embedding_model_name,Config.embedding_api_key)
-vector_db=Chroma_vector_db(embedding.embedding,Config.persist_dir)
+llm=Groq_llm(settings.llm_model_name,settings.temperature,settings.groq_llm_api_key)
+embedding=Hugging_face_embedding(settings.huggingface_embedding_model_name,settings.huggingface_api)
+vector_db=ChromaVectorDB(embedding.embedding,settings.collection_name,settings.persist_dir)
 rag_instance=Rag(llm.llm,embedding.embedding,vector_db)
-#documents=DocumentLoader().load_documents(Config.data_path)
-#rag_instance.adding_documents(documents)
-print(rag_instance.llm_response("What is the capital of France?",3))
+documents=DocumentLoader().load_documents(settings.data_path)
+if not vector_db.get_all().get("ids"):
+    rag_instance.adding_documents(documents)
+print(rag_instance.llm_response("What is the llm?",3))
 
 

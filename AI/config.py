@@ -1,21 +1,63 @@
-import os
-from dotenv import load_dotenv
+# import os
+# from dotenv import load_dotenv
 
-load_dotenv()
+# load_dotenv()
 
-class Config:
-    llm_api_key = os.getenv("groq_api")
-    llm_model_name = "openai/gpt-oss-20b"
-    #qwen/qwen3.8-27b
-    #qwen/qwen3-32b
-    #openai/gpt-oss-120b
-    #llm_model_name = "ometa-llama/llama-4-scout-17b-16e-instruct"
-    #openai/gpt-oss-20b
-    temperature = 0.9
+# class Config:
+#     llm_api_key = os.getenv("groq_api")
+#     llm_model_name = "openai/gpt-oss-20b"
+#     #qwen/qwen3.8-27b
+#     #qwen/qwen3-32b
+#     #openai/gpt-oss-120b
+#     #llm_model_name = "ometa-llama/llama-4-scout-17b-16e-instruct"
+#     #openai/gpt-oss-20b
+#     temperature = 0.9
     
-    embedding_api_key = os.getenv("huggingface_api")
-    embedding_model_name = "sentence-transformers/all-MiniLM-L6-v2"
+#     embedding_api_key = os.getenv("huggingface_api")
+#     embedding_model_name = "sentence-transformers/all-MiniLM-L6-v2"
 
-    data_path = r"data"
-    persist_dir = r"chroma_db"
-    top_k = 3
+#     data_path = r"data"
+#     persist_dir = r"chroma_db"
+#     top_k = 3
+
+from functools import lru_cache
+from turtle import st
+
+from pydantic import field_validator, model_validator
+from pydantic_settings import BaseSettings, SettingsConfigDict
+
+
+class Settings(BaseSettings):
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        env_file_encoding="utf-8",
+        extra="ignore",
+    )
+    APP_ENV:str ="local"
+    project_name:str="email-agent"
+
+    #llm and embedding settings
+    groq_llm_api_key: str
+    llm_model_name: str = "openai/gpt-oss-20b"
+    temperature: float = 0.9
+    huggingface_embedding_model_name: str = "sentence-transformers/all-MiniLM-L6-v2"
+    huggingface_api: str
+    data_path: str = "AI/data"
+    persist_dir: str = "chroma_db"
+    collection_name: str = "documents"
+    top_k: int = 3
+    LANGSMITH_API_KEY: str
+
+    #agent settings
+    agent_version:str ="v1.0"
+    memory_database_url: str = "postgresql+psycopg://taskapp:replace-me@localhost:5432/taskdb"
+    limit_conversation_history_N: int = 5
+    
+
+
+@lru_cache
+def get_settings() -> Settings:
+    return Settings()
+
+
+settings = get_settings()
